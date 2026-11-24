@@ -11,7 +11,7 @@ import {
   totalPanier,
   changerQuantite,    // ← seulement si tu l'as ajoutée à panier.ts
 } from "./panier";
-console.log("La boutique démarre"); 
+
 
 let panier: LignePanier[] = [];
 function creerLignePanier(ligne: LignePanier): HTMLLIElement {
