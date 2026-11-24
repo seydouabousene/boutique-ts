@@ -107,21 +107,36 @@ function creerCarte(produit: Produit): HTMLElement {
   return carte;
 }
 
-function afficherCatalogue(): void {
+function produitsAffiches(): Produit[] {
   const texte = champRecherche.value.trim().toLowerCase();
   const categorie = filtreCategorie.value;
 
-  const produits = catalogue.filter(
+  return catalogue.filter(
     (p) =>
-      p.nom.toLowerCase().includes(texte) &&
-      (categorie === "" || p.categorie === categorie)
+      (categorie === "toutes" || p.categorie === categorie) &&
+      p.nom.toLowerCase().includes(texte)
   );
-
-  zoneCatalogue.replaceChildren(...produits.map(creerCarte));
 }
+
+function afficherCatalogue(): void {
+  const produits = produitsAffiches();
+
+  if (produits.length === 0) {
+    const message = document.createElement("p");
+    message.className = "catalogue-vide";
+    message.textContent = "Aucun produit ne correspond à votre recherche.";
+    zoneCatalogue.replaceChildren(message);
+  } else {
+    zoneCatalogue.replaceChildren(...produits.map(creerCarte));
+  }
+}
+
+
 
 champRecherche.addEventListener("input", afficherCatalogue);
 filtreCategorie.addEventListener("change", afficherCatalogue);
+
+
 
 // À la fin de main.ts :
 afficherCatalogue();
