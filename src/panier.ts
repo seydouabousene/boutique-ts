@@ -22,10 +22,10 @@ export function ajouterAuPanier(
 
   // 3. Oui : on recopie chaque ligne en incrémentant celle du produit
   return panier.map((ligne) =>
-    ligne.produit.id === produit.id
-      ? { ...ligne, quantite: ligne.quantite + 1 }
-      : ligne
-  );
+  ligne.produit.id === produit.id
+    ? { ...ligne, quantite: Math.min(ligne.quantite + 1, produit.stock) }
+    : ligne
+);
 }
 
 /**
@@ -57,4 +57,22 @@ export function totalPanier(panier: LignePanier[]): number {
     0
   );
 }
+
+export function changerQuantite(
+  panier: LignePanier[],
+  idProduit: number,
+  delta: number
+): LignePanier[] {
+  return panier
+    .map((ligne) => {
+      if (ligne.produit.id !== idProduit) return ligne;
+      const nouvelle = ligne.quantite + delta;
+      // on ne dépasse jamais le stock
+      return { ...ligne, quantite: Math.min(nouvelle, ligne.produit.stock) };
+    })
+    .filter((ligne) => ligne.quantite > 0);
+
+}
+
+
 
