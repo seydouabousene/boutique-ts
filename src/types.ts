@@ -1,4 +1,4 @@
-export type Categorie = "electronique" | "vetement" | "alimentaire" | "loisir";
+export type Categorie = "vetements" | "chaussures" | "accessoires" | "maison";
 
 export type Produit = {
   readonly id: number;
